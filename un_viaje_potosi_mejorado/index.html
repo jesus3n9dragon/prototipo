@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Un viaje al pasado de Potosí</title>
+  <meta name="description" content="Cómic digital interactivo sobre la historia colonial de Potosí." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Comic+Neue:wght@400;700&family=Lora:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#111111;--bg-2:#171717;--panel:#1d1d1d;--panel-2:#262626;--text:#f7f1e5;--muted:#d8c9ae;--muted-2:#b09b7b;--gold:#d6a64b;--gold-2:#f0c56b;--red:#a82e27;--cream:#f3e4c5;--line:rgba(255,255,255,.12);--shadow:0 20px 40px rgba(0,0,0,.28);--radius:22px;--radius-sm:14px;--max:1180px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:'Manrope',sans-serif;background:
+      radial-gradient(circle at top right, rgba(214,166,75,.09), transparent 28%),
+      radial-gradient(circle at top left, rgba(168,46,39,.11), transparent 32%),
+      linear-gradient(180deg,#0f0f0f, #161616 30%, #111111 100%);
+      color:var(--text)}
+    img{max-width:100%;display:block}
+    a{text-decoration:none;color:inherit}
+    button{font:inherit}
+    .container{width:min(var(--max),calc(100% - 32px));margin:0 auto}
+    .hidden{display:none!important}
+    .topbar{position:sticky;top:0;z-index:90;background:rgba(13,13,13,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+    .topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:78px}
+    .brand{display:flex;align-items:center;gap:14px;min-width:0}
+    .logo-mark{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#2a1d10,#19140d);border:1px solid rgba(214,166,75,.35);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 10px 25px rgba(0,0,0,.25)}
+    .logo-mark svg{width:34px;height:34px}
+    .brand-title{font-family:'Cinzel',serif;font-size:1.1rem;font-weight:800;letter-spacing:.05em;color:#fff7ea;white-space:nowrap}
+    .brand-sub{display:block;font-size:.72rem;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;margin-top:4px}
+    .main-nav{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .nav-btn,.ghost-btn,.primary-btn,.admin-btn,.small-btn,.quiz-btn{border:none;cursor:pointer;border-radius:999px;transition:.22s ease}
+    .nav-btn{padding:11px 16px;background:transparent;color:#f7ecd8;border:1px solid transparent}
+    .nav-btn:hover,.nav-btn.active{background:#211a14;border-color:rgba(214,166,75,.22);color:white}
+    .admin-btn{padding:11px 16px;background:linear-gradient(135deg,#a82e27,#86221d);color:#fff;border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow)}
+    .admin-btn:hover{transform:translateY(-1px)}
+
+    main{padding-bottom:80px}
+    .view{display:none}
+    .view.active{display:block}
+
+    .hero-wrap{padding:34px 0 26px}
+    .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:28px;align-items:stretch}
+    .hero-copy,.hero-art{background:linear-gradient(180deg,rgba(27,27,27,.96),rgba(21,21,21,.96));border:1px solid var(--line);border-radius:32px;box-shadow:var(--shadow)}
+    .hero-copy{padding:38px 38px 32px;position:relative;overflow:hidden}
+    .hero-copy::after{content:"";position:absolute;right:-40px;top:-40px;width:170px;height:170px;background:radial-gradient(circle,rgba(214,166,75,.13),transparent 62%)}
+    .eyebrow{display:inline-flex;align-items:center;gap:10px;padding:9px 14px;border-radius:999px;background:#1d1712;border:1px solid rgba(214,166,75,.25);color:var(--muted);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase}
+    .eyebrow i{width:9px;height:9px;border-radius:50%;display:inline-block;background:linear-gradient(135deg,var(--gold),#f3d08d);box-shadow:0 0 0 5px rgba(214,166,75,.1)}
+    .hero-copy h1{margin:22px 0 16px;font-family:'Cinzel',serif;font-size:clamp(2.4rem,5vw,4.5rem);line-height:1.02;color:#fff7ea}
+    .hero-copy h1 em{font-style:italic;color:#f2d59d}
+    .hero-copy p{margin:0 0 12px;color:#efe5d2;font-size:1.03rem;line-height:1.7;max-width:61ch}
+    .hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:24px}
+    .primary-btn{padding:14px 22px;background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#27190a;font-weight:800;box-shadow:0 18px 30px rgba(214,166,75,.18)}
+    .primary-btn:hover{transform:translateY(-2px)}
+    .ghost-btn{padding:13px 20px;background:transparent;border:1px solid rgba(214,166,75,.3);color:#fff0d0}
+    .hero-meta{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:30px}
+    .hero-meta .meta-box{padding:14px 16px;border-radius:18px;background:#171717;border:1px solid var(--line)}
+    .meta-box span{display:block;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted-2);margin-bottom:8px}
+    .meta-box strong{font-weight:700;color:#fff3df}
+
+    .hero-art{padding:20px;display:flex;flex-direction:column;gap:16px}
+    .art-frame{flex:1;min-height:420px;border-radius:26px;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.06);background:#0e0e0e}
+    .art-frame img{width:100%;height:100%;object-fit:cover}
+    .art-overlay{position:absolute;inset:auto 18px 18px 18px;display:flex;align-items:end;justify-content:space-between;gap:16px}
+    .stamp,.caption-card{backdrop-filter:blur(8px);background:rgba(12,12,12,.6);border:1px solid rgba(255,255,255,.12);color:white;border-radius:18px;padding:14px 16px}
+    .stamp{font-family:'Cinzel',serif;line-height:1.18;min-width:140px}
+    .stamp small{display:block;color:#e9c57f;letter-spacing:.18em;text-transform:uppercase;font-size:.7rem;margin-bottom:6px}
+    .caption-card{max-width:280px;color:#f0e1c0;font-size:.95rem;line-height:1.55}
+    .hero-bottom{display:flex;justify-content:space-between;gap:14px;align-items:center;padding:2px 6px 2px 2px;color:var(--muted)}
+    .hero-bottom strong{color:#fff3df;font-weight:700;letter-spacing:.1em;font-size:.84rem}
+
+    .section{padding:20px 0}
+    .section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:20px}
+    .section-head h2{font-family:'Cinzel',serif;font-size:clamp(1.8rem,3.2vw,3rem);margin:8px 0 6px;color:#fff4df}
+    .section-head p{color:var(--muted);max-width:64ch;line-height:1.7;margin:0}
+    .section-tag{color:var(--gold-2);font-size:.82rem;text-transform:uppercase;letter-spacing:.16em}
+    .stats-grid,.feature-grid,.episode-grid,.project-grid,.activity-grid{display:grid;gap:18px}
+    .stats-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .feature-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .episode-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .project-grid{grid-template-columns:1.1fr .9fr}
+    .activity-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .card{background:linear-gradient(180deg,rgba(30,30,30,.96),rgba(18,18,18,.96));border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}
+    .stat-card{padding:22px}
+    .stat-num{font-family:'Cinzel',serif;font-size:2rem;color:#f4d79d}
+    .stat-label{font-size:.85rem;letter-spacing:.15em;color:var(--muted-2);text-transform:uppercase;margin:8px 0}
+    .stat-text{line-height:1.6;color:#efe1c8;font-size:.96rem}
+    .feature-card{padding:24px}
+    .feature-icon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#342414,#20160e);border:1px solid rgba(214,166,75,.28);margin-bottom:18px;color:#f1cd84;font-weight:800}
+    .feature-card h3{margin:0 0 10px;font-family:'Lora',serif;font-size:1.32rem}
+    .feature-card p{margin:0;color:var(--muted);line-height:1.7}
+
+    .episode-card{overflow:hidden;display:flex;flex-direction:column}
+    .activity-choice .episode-thumb{height:185px}
+    .activity-choice .episode-body{min-height:190px}
+    .option:disabled{cursor:default;opacity:1}
+    .quiz-panel{margin-top:22px}
+    .quiz-panel .question-card{margin-top:8px}
+    .quiz-panel .quiz-summary{margin-top:12px}
+    .activity-empty{padding:26px;border:1px dashed rgba(214,166,75,.3);border-radius:20px;color:var(--muted)}
+    .episode-thumb{position:relative;height:240px;background:#0d0d0d}
+    .episode-thumb img{width:100%;height:100%;object-fit:cover}
+    .episode-badge{position:absolute;left:16px;top:16px;padding:8px 12px;border-radius:999px;background:rgba(13,13,13,.75);border:1px solid rgba(255,255,255,.14);font-size:.82rem;color:#f6deb0}
+    .episode-body{padding:22px;display:flex;flex-direction:column;gap:12px;flex:1}
+    .episode-body h3{margin:0;font-family:'Lora',serif;font-size:1.45rem;color:#fff4df}
+    .episode-body p{margin:0;color:var(--muted);line-height:1.7;flex:1}
+    .episode-meta{display:flex;justify-content:space-between;align-items:center;color:#ccb48f;font-size:.9rem;gap:10px;margin-top:8px}
+    .small-btn{padding:12px 16px;background:#201912;border:1px solid rgba(214,166,75,.28);color:#fff0d0;border-radius:14px;font-weight:700}
+    .small-btn:hover{background:#2a2017}
+
+    .project-copy{padding:28px}
+    .project-copy h3{font-family:'Cinzel',serif;margin:12px 0 10px;font-size:2rem;color:#fff3de}
+    .project-copy p{color:var(--muted);line-height:1.8}
+    .timeline{display:grid;gap:14px;margin-top:20px}
+    .timeline-item{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:14px 16px;border-radius:18px;background:#141414;border:1px solid var(--line)}
+    .timeline-step{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#211408;font-weight:800}
+    .project-visual{padding:18px;display:flex;flex-direction:column;gap:16px}
+    .visual-image{border-radius:22px;overflow:hidden;min-height:250px}
+    .visual-image img{width:100%;height:100%;object-fit:cover}
+    .quote-box{padding:18px;border-radius:18px;background:#151515;border:1px solid var(--line);color:#f6e6c4;line-height:1.8;font-family:'Lora',serif}
+
+    .reader-shell{padding:28px 0}
+    .reader-header{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:16px;flex-wrap:wrap}
+    .reader-header h2{margin:6px 0 0;font-family:'Cinzel',serif;font-size:2rem}
+    .reader-header .section-tag{display:block;margin-bottom:4px}
+    .reader-controls-top{display:flex;gap:10px;flex-wrap:wrap}
+    .reader-progress{height:10px;border-radius:999px;background:#221d17;border:1px solid rgba(214,166,75,.18);overflow:hidden}
+    .reader-progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-2));transition:width .25s}
+    .reader-stage{margin-top:18px;display:grid;grid-template-columns:70px minmax(0,1fr) 70px;gap:16px;align-items:center}
+    .arrow-btn{width:100%;aspect-ratio:1;border-radius:50%;background:#1c1a17;border:1px solid rgba(214,166,75,.28);color:#f4d79d;font-size:2rem;cursor:pointer}
+    .comic-card{padding:18px}
+    .comic-figure{position:relative;border-radius:26px;overflow:hidden;background:#0c0c0c;border:1px solid rgba(255,255,255,.06)}
+    .comic-figure img{width:100%;height:min(68vh,700px);object-fit:cover}
+    .narration{position:absolute;left:18px;top:18px;max-width:min(68%,560px);padding:16px 18px;border-radius:20px;background:rgba(244,228,197,.95);color:#24180f;box-shadow:var(--shadow);font-family:'Lora',serif;line-height:1.6}
+    .speech{position:absolute;right:18px;bottom:70px;max-width:min(45%,320px);padding:18px 20px;border-radius:24px 24px 8px 24px;background:#fff;color:#1f1a17;box-shadow:var(--shadow);line-height:1.6;font-weight:700}
+    .page-number{position:absolute;right:18px;bottom:18px;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:rgba(13,13,13,.78);border:1px solid rgba(255,255,255,.16);font-family:'Cinzel',serif;color:#fff0d0}
+    .reader-footer{display:flex;justify-content:space-between;align-items:center;gap:18px;flex-wrap:wrap;margin-top:16px}
+    .dot-group{display:flex;gap:10px;flex-wrap:wrap}
+    .dot{width:11px;height:11px;border-radius:50%;background:#6d5a3a;opacity:.45}
+    .dot.active{opacity:1;background:var(--gold);box-shadow:0 0 0 5px rgba(214,166,75,.15)}
+    .activity-launch{margin-top:18px;padding:18px 20px;display:flex;justify-content:space-between;gap:18px;align-items:center;background:linear-gradient(135deg,#24160c,#3a2712);border:1px solid rgba(214,166,75,.24);border-radius:22px}
+    .activity-launch strong{display:block;font-size:1.05rem;color:#fff4df;margin-bottom:4px}
+    .activity-launch p{margin:0;color:#efdcb4;line-height:1.6}
+
+    .quiz-panel{padding:28px}
+    .quiz-top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+    .quiz-top h2{margin:0;font-family:'Cinzel',serif;font-size:2rem}
+    .quiz-sub{margin:0 0 18px;color:var(--muted);line-height:1.7}
+    .quiz-status{color:#f4d79d;font-weight:700}
+    .quiz-line{height:10px;border-radius:999px;overflow:hidden;background:#221d17;border:1px solid rgba(214,166,75,.18);margin-bottom:22px}
+    .quiz-line span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold-2));transition:width .25s}
+    .question-card{padding:22px;border-radius:22px;background:#161616;border:1px solid var(--line)}
+    .question-card h3{margin:0 0 18px;font-family:'Lora',serif;font-size:1.55rem;color:#fff4df}
+    .options{display:grid;gap:12px}
+    .option{padding:15px 16px;border-radius:16px;background:#111;border:1px solid #2c2c2c;color:#f6ead2;text-align:left;cursor:pointer;display:flex;gap:12px;align-items:flex-start}
+    .option:hover{border-color:rgba(214,166,75,.3)}
+    .option b{display:inline-grid;place-items:center;min-width:28px;height:28px;border-radius:50%;background:#20180f;color:#f0c971}
+    .option.correct{background:rgba(60,111,63,.18);border-color:rgba(122,213,110,.4)}
+    .option.wrong{background:rgba(134,34,29,.22);border-color:rgba(242,98,88,.4)}
+    .feedback{margin-top:18px;padding:16px 18px;border-radius:16px;background:#121212;border:1px solid var(--line);color:#f0e2c5;line-height:1.7;display:none}
+    .feedback.show{display:block}
+    .feedback strong{color:#f4d79d}
+    .quiz-actions{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:18px}
+    .quiz-btn{padding:13px 18px;background:#201912;border:1px solid rgba(214,166,75,.28);color:#fff0d0;border-radius:14px}
+    .quiz-btn.primary{background:linear-gradient(135deg,var(--gold),var(--gold-2));color:#2a1809;font-weight:800}
+    .quiz-summary{padding:24px;text-align:center}
+    .quiz-summary h3{font-family:'Cinzel',serif;font-size:2rem;margin:0 0 10px}
+    .quiz-summary p{max-width:58ch;margin:0 auto 18px;color:var(--muted);line-height:1.8}
+    .summary-score{font-family:'Cinzel',serif;font-size:3rem;color:#f4d79d;margin:18px 0}
+
+    .footer{border-top:1px solid var(--line);padding:24px 0;color:#d8c19b;background:#0f0f0f}
+    .footer-inner{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+    @media (max-width: 1020px){
+      .hero-grid,.project-grid,.feature-grid,.episode-grid,.stats-grid,.activity-grid{grid-template-columns:1fr 1fr}
+      .hero-grid{grid-template-columns:1fr}
+      .reader-stage{grid-template-columns:50px minmax(0,1fr) 50px}
+      .main-nav{display:none}
+    }
+    @media (max-width: 720px){
+      .container{width:min(var(--max),calc(100% - 20px))}
+      .topbar-inner{min-height:72px}
+      .brand-title{font-size:1rem;white-space:normal}
+      .brand-sub{letter-spacing:.12em}
+      .hero-copy,.hero-art,.card,.quiz-panel{padding:20px}
+      .stats-grid,.feature-grid,.episode-grid,.project-grid,.activity-grid{grid-template-columns:1fr}
+      .hero-meta{grid-template-columns:1fr}
+      .art-frame{min-height:280px}
+      .narration,.speech{position:static;max-width:none;margin:12px}
+      .comic-figure img{height:auto;max-height:none}
+      .page-number{right:12px;bottom:12px;width:42px;height:42px}
+      .reader-stage{grid-template-columns:1fr}
+      .arrow-btn{width:56px;justify-self:center}
+      .reader-footer,.activity-launch,.section-head,.reader-header,.quiz-top{align-items:flex-start}
+      .activity-launch{flex-direction:column;align-items:flex-start}
+      .speech{margin-top:0}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <a class="brand" href="#">
+        <div class="logo-mark" aria-hidden="true">
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="46" stroke="#D6A64B" stroke-width="4"/>
+            <path d="M28 64 L50 24 L72 64" stroke="#F6E1B8" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M37 53 H63" stroke="#D6A64B" stroke-width="6" stroke-linecap="round"/>
+            <path d="M50 24 V16" stroke="#D6A64B" stroke-width="5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <div class="brand-title">UN VIAJE AL PASADO DE POTOSÍ</div>
+          <span class="brand-sub">cómic digital interactivo</span>
+        </div>
+      </a>
+      <nav class="main-nav">
+        <button class="nav-btn active" data-view="inicio">Inicio</button>
+        <button class="nav-btn" data-view="episodios">Episodios</button>
+        <button class="nav-btn" data-view="lector">Lectura</button>
+        <button class="nav-btn" data-view="actividades">Actividades</button>
+        <button class="nav-btn" data-view="proyecto">El proyecto</button>
+        <button class="admin-btn" id="jumpReader">Comenzar</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="view active" id="view-inicio">
+      <div class="container hero-wrap">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow"><i></i> propuesta gráfica e interactiva</div>
+            <h1>Un viaje al <em>pasado</em><br>de Potosí</h1>
+            <p>Una experiencia visual que une ilustración, narrativa gráfica y aprendizaje para acercar a estudiantes de secundaria a la historia colonial de la Villa Imperial.</p>
+            <p>El protagonista de sudadera roja recorre el presente y el pasado, descubre acontecimientos históricos, observa escenarios patrimoniales y dialoga con personajes inspirados en la época colonial.</p>
+            <div class="hero-actions">
+              <button class="primary-btn" data-view="episodios">Explorar episodios →</button>
+              <button class="ghost-btn" data-view="proyecto">Ver concepto del proyecto</button>
+            </div>
+            <div class="hero-meta">
+              <div class="meta-box"><span>concepto</span><strong>Viaje temporal + memoria histórica</strong></div>
+              <div class="meta-box"><span>enfoque</span><strong>Historia, aventura e identidad potosina</strong></div>
+              <div class="meta-box"><span>público</span><strong>Estudiantes de secundaria de Potosí</strong></div>
+            </div>
+          </div>
+          <div class="hero-art">
+            <div class="art-frame">
+              <img src="assets/illustrations/portada-ilustrada.png" alt="Protagonista del cómic frente al Potosí colonial" />
+              <div class="art-overlay">
+                <div class="stamp"><small>Villa Imperial</small><strong>POTOSÍ</strong><br>ÉPOCA COLONIAL</div>
+                <div class="caption-card">El viaje conecta al estudiante con escenarios históricos como el Cerro Rico, la Casa de Moneda y las calles coloniales de la ciudad.</div>
+              </div>
+            </div>
+            <div class="hero-bottom"><strong>01 · AVENTURA HISTÓRICA</strong><span>desplázate para descubrir el proyecto ↓</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container section">
+        <div class="section-head">
+          <div><div class="section-tag">rasgos principales</div><h2>Una propuesta pensada para aprender</h2></div>
+          <p>La estructura reúne guion, ilustración, navegación, actividades y un estilo gráfico consistente. La lectura no solo muestra escenas: también permite reflexionar e interactuar.</p>
+        </div>
+        <div class="stats-grid">
+          <div class="card stat-card"><div class="stat-num">06</div><div class="stat-label">episodios base</div><div class="stat-text">Desde el presente hasta el regreso final, organizados como un recorrido progresivo.</div></div>
+          <div class="card stat-card"><div class="stat-num">18</div><div class="stat-label">escenas iniciales</div><div class="stat-text">Cada episodio incluye páginas de lectura con narración, diálogo y composición visual.</div></div>
+          <div class="card stat-card"><div class="stat-num">12</div><div class="stat-label">preguntas</div><div class="stat-text">Se añadieron más actividades para reforzar comprensión, memoria e interés histórico.</div></div>
+          <div class="card stat-card"><div class="stat-num">01</div><div class="stat-label">identidad visual</div><div class="stat-text">Tipografía, color, logo y tono visual coherentes con el cómic y el proyecto de grado.</div></div>
+        </div>
+      </div>
+
+      <div class="container section">
+        <div class="section-head">
+          <div><div class="section-tag">una experiencia para descubrir</div><h2>Lee, observa y descubre</h2></div>
+          <p>Recorre los episodios, conoce los espacios que marcaron la historia de Potosí y comprueba lo aprendido con actividades breves al finalizar cada aventura.</p>
+        </div>
+        <div class="feature-grid">
+          <div class="card feature-card"><div class="feature-icon">✦</div><h3>Una ciudad con historia</h3><p>Descubre la Villa Imperial, sus calles, sus construcciones y el papel que tuvo la minería en su desarrollo.</p></div>
+          <div class="card feature-card"><div class="feature-icon">◈</div><h3>Personajes y relatos</h3><p>Acompaña al protagonista en un recorrido narrativo que conecta el Potosí actual con escenarios de la época colonial.</p></div>
+          <div class="card feature-card"><div class="feature-icon">✎</div><h3>Aprende jugando</h3><p>Responde preguntas, recibe explicaciones y repasa los principales contenidos de cada episodio.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-episodios">
+      <div class="container section">
+        <div class="section-head">
+          <div><div class="section-tag">recorrido narrativo</div><h2>Explora los episodios</h2></div>
+          <p>Estos episodios organizan el viaje del protagonista y muestran un avance desde el descubrimiento inicial hasta la valoración del patrimonio potosino.</p>
+        </div>
+        <div class="episode-grid" id="episodeGrid"></div>
+      </div>
+    </section>
+
+    <section class="view" id="view-lector">
+      <div class="container reader-shell">
+        <div class="reader-header">
+          <div>
+            <span class="section-tag" id="readerEpisodeTag">episodio 01</span>
+            <h2 id="readerTitle">El comienzo de una aventura</h2>
+          </div>
+          <div class="reader-controls-top">
+            <button class="ghost-btn" data-view="episodios">← Volver a episodios</button>
+            <button class="primary-btn" id="openEpisodeQuiz">Actividad del episodio</button>
+          </div>
+        </div>
+        <div class="reader-progress"><span id="readerBar"></span></div>
+        <div class="reader-stage">
+          <button class="arrow-btn" id="prevPage">‹</button>
+          <div class="card comic-card">
+            <div class="comic-figure">
+              <img id="readerImage" src="assets/viaje.jpg" alt="Escena del cómic">
+              <div class="narration" id="readerNarration"></div>
+              <div class="speech" id="readerSpeech"></div>
+              <div class="page-number" id="readerPageNum">01</div>
+            </div>
+          </div>
+          <button class="arrow-btn" id="nextPage">›</button>
+        </div>
+        <div class="reader-footer">
+          <div id="readerCount">Página 1 de 3</div>
+          <div class="dot-group" id="readerDots"></div>
+          <button class="small-btn" id="nextPageCta">Siguiente página →</button>
+        </div>
+        <div class="activity-launch card" id="activityLaunch">
+          <div>
+            <strong>Continúa con la actividad histórica</strong>
+            <p>Después de leer este episodio, responde preguntas para reforzar la comprensión de los acontecimientos observados.</p>
+          </div>
+          <button class="primary-btn" id="launchQuiz">Responder actividad</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-actividades">
+      <div class="container section">
+        <div class="section-head">
+          <div><div class="section-tag">desafío histórico</div><h2>¿Cuánto sabes de Potosí?</h2></div>
+          <p>Elige un episodio y responde las preguntas para poner a prueba lo que descubriste durante la lectura.</p>
+        </div>
+        <div id="activityChooser" class="episode-grid"></div>
+        <div class="card quiz-panel hidden" id="quizPanel">
+          <div class="quiz-top">
+            <div>
+              <div class="section-tag" id="quizEpisodeTag">actividad histórica</div>
+              <h2 id="quizTitle">Comprueba lo que aprendiste</h2>
+            </div>
+            <div class="quiz-status" id="quizStatus">Pregunta 1 de 2</div>
+          </div>
+          <p class="quiz-sub">Selecciona una respuesta para continuar. Al terminar conocerás tu resultado y podrás volver a intentarlo.</p>
+          <div class="quiz-line"><span id="quizBar"></span></div>
+          <div class="question-card" id="questionCard">
+            <h3 id="questionText"></h3>
+            <div class="options" id="options"></div>
+            <div class="feedback" id="feedback" aria-live="polite"></div>
+            <div class="quiz-actions">
+              <button class="quiz-btn" id="chooseAnotherActivity">Elegir otro episodio</button>
+              <button class="quiz-btn primary" id="nextQuestionBtn" disabled>Siguiente pregunta →</button>
+            </div>
+          </div>
+          <div class="card quiz-summary hidden" id="quizSummary">
+            <h3>¡Actividad completada!</h3>
+            <div class="summary-score" id="summaryScore">0 / 0</div>
+            <p id="summaryText"></p>
+            <div class="quiz-actions" style="justify-content:center">
+              <button class="quiz-btn" id="retryQuiz">Volver a intentar</button>
+              <button class="quiz-btn primary" id="backToActivities">Elegir otra actividad</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="view-proyecto">
+      <div class="container section">
+        <div class="section-head">
+          <div><div class="section-tag">sobre la propuesta</div><h2>Diseño, narrativa e identidad histórica</h2></div>
+          <p>Este recorrido utiliza la narrativa gráfica para acercar la historia colonial de Potosí a estudiantes de secundaria. A través de personajes, escenarios y actividades, invita a conocer los acontecimientos que dieron forma a la Villa Imperial.</p>
+        </div>
+        <div class="project-grid">
+          <div class="card project-copy">
+            <div class="section-tag">estructura de la propuesta</div>
+            <h3>Un recorrido que educa y motiva</h3>
+            <p>El recorrido aborda el crecimiento de la Villa Imperial, la explotación de la plata, el trabajo minero, la Casa Nacional de Moneda y distintos aspectos de la vida social durante la época colonial.</p>
+            <div class="timeline">
+              <div class="timeline-item"><div class="timeline-step">1</div><div><strong>Potosí actual</strong><br><span style="color:var(--muted)">El protagonista observa la ciudad y se pregunta cómo fue su pasado.</span></div></div>
+              <div class="timeline-item"><div class="timeline-step">2</div><div><strong>Viaje temporal</strong><br><span style="color:var(--muted)">Un recurso narrativo lo traslada a momentos representativos de la época colonial.</span></div></div>
+              <div class="timeline-item"><div class="timeline-step">3</div><div><strong>Aprendizaje visual</strong><br><span style="color:var(--muted)">Cada escena organiza personajes, escenarios y diálogos con información histórica breve.</span></div></div>
+              <div class="timeline-item"><div class="timeline-step">4</div><div><strong>Reflexión final</strong><br><span style="color:var(--muted)">El regreso al presente permite valorar la historia y el patrimonio potosino.</span></div></div>
+            </div>
+          </div>
+          <div class="card project-visual">
+            <div class="visual-image"><img src="assets/illustrations/guia-estilo.png" alt="Guía de estilo del cómic"></div>
+            <div class="quote-box">“Conocer la historia de Potosí es reconocer las huellas de quienes construyeron su memoria. Cada escenario conserva una parte de nuestro pasado y nos invita a comprenderlo.”</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <span><strong>UN VIAJE AL PASADO DE POTOSÍ</strong></span>
+      <span>Cómic digital interactivo · propuesta académica</span>
+      <span>Historia · Cultura · Identidad</span>
+    </div>
+  </footer>
+
+  <script>
+    const episodes = [
+      {
+        id:'ep1', number:'01', title:'El comienzo de una aventura', image:'assets/illustrations/viaje-temporal.png', description:'El protagonista se encuentra en el Potosí actual y descubre el elemento narrativo que inicia el viaje al pasado.',
+        pages:[
+          {image:'assets/viaje.jpg', narration:'En el Potosí actual, el protagonista observa los espacios históricos de su ciudad y siente curiosidad por conocer cómo fue la vida colonial.', speech:'¿Cómo habrá sido Potosí cuando el Cerro Rico estaba en su mayor esplendor?'},
+          {image:'assets/illustrations/personaje-protagonista.png', narration:'Una luz inesperada y un cambio en el ambiente le hacen sentir que está cruzando un umbral entre el presente y el pasado.', speech:'Esto no parece un sueño... siento que estoy viajando en el tiempo.'},
+          {image:'assets/illustrations/viaje-temporal.png', narration:'El viaje temporal lo prepara para encontrarse con escenarios, personas y acontecimientos que marcaron la historia de la Villa Imperial.', speech:'Debo observar todo con atención. Quiero entender qué ocurrió aquí.'}
+        ],
+        quiz:[
+          {q:'¿Dónde inicia la historia del protagonista?', options:['En una mina colonial','En el Potosí actual','En la Casa de Moneda','En una iglesia colonial'], correct:1, explanation:'La historia comienza en el presente, desde donde se activa el recurso narrativo del viaje temporal.'},
+          {q:'¿Cuál es la función del viaje en el tiempo dentro del cómic?', options:['Eliminar el contenido histórico','Conectar el presente con la época colonial','Convertir al protagonista en un personaje histórico real','Mostrar solamente fantasía'], correct:1, explanation:'El viaje en el tiempo sirve para vincular al estudiante con el pasado y facilitar la comprensión de los hechos históricos.'}
+        ]
+      },
+      {
+        id:'ep2', number:'02', title:'La Villa Imperial de Potosí', image:'assets/illustrations/escena-colonial.png', description:'El protagonista llega a la ciudad colonial y observa sus calles, su crecimiento y su actividad cotidiana.',
+        pages:[
+          {image:'assets/escena.jpg', narration:'Al llegar al pasado, el protagonista encuentra una ciudad activa, con calles transitadas, comercio y construcciones que muestran la importancia de la Villa Imperial.', speech:'La ciudad se ve enorme y llena de movimiento. Todo parece girar en torno a su riqueza.'},
+          {image:'assets/illustrations/escena-colonial.png', narration:'Las calles, los edificios y la presencia de diferentes grupos sociales evidencian que Potosí se convirtió en un centro económico y urbano muy relevante.', speech:'Ahora entiendo por qué la llamaban la Villa Imperial.'},
+          {image:'assets/portada.jpg', narration:'El recorrido le permite relacionar la arquitectura, la vida cotidiana y la organización urbana con el crecimiento histórico de la ciudad.', speech:'Cada rincón cuenta una parte de la historia de Potosí.'}
+        ],
+        quiz:[
+          {q:'¿Qué observa el protagonista al llegar a la Villa Imperial?', options:['Una ciudad abandonada','Una ciudad con actividad urbana y social','Solo montañas sin habitantes','Un paisaje moderno'], correct:1, explanation:'La Villa Imperial se presenta como una ciudad activa, con calles, comercio y diferentes grupos sociales.'},
+          {q:'¿Qué representa el crecimiento de la Villa Imperial?', options:['La pérdida total de importancia de Potosí','El desarrollo económico y urbano de la ciudad','Una ciudad sin relación con la minería','Solo un cambio de nombre'], correct:1, explanation:'La ciudad creció gracias a su importancia económica y a su relación con la explotación minera.'}
+        ]
+      },
+      {
+        id:'ep3', number:'03', title:'El Cerro Rico y la plata', image:'assets/mina.jpg', description:'Se presenta la importancia minera del Cerro Rico y su relación con la riqueza de la ciudad.',
+        pages:[
+          {image:'assets/mina.jpg', narration:'El protagonista contempla el Cerro Rico y descubre que su riqueza mineral convirtió a Potosí en un espacio de gran relevancia colonial.', speech:'Así que de este cerro salió gran parte de la riqueza que hizo famosa a la ciudad.'},
+          {image:'assets/comic.jpg', narration:'La plata fue uno de los principales recursos explotados, y su extracción impactó profundamente la economía, la organización del trabajo y la vida social.', speech:'La plata no solo cambió la montaña, también cambió la historia de muchísimas personas.'},
+          {image:'assets/illustrations/actividad-referencia.png', narration:'Comprender el papel del Cerro Rico permite entender por qué la historia de Potosí ocupa un lugar tan importante en la memoria histórica boliviana.', speech:'El Cerro Rico es mucho más que una montaña: es un símbolo histórico.'}
+        ],
+        quiz:[
+          {q:'¿Por qué fue importante el Cerro Rico durante la época colonial?', options:['Porque era residencia del virrey','Porque tenía abundantes minerales, especialmente plata','Porque era un lago sagrado','Porque se utilizaba solo como mirador'], correct:1, explanation:'El Cerro Rico fue fundamental por su riqueza mineral, especialmente la plata, que impulsó la economía colonial.'},
+          {q:'¿Qué ayudó a explicar este episodio?', options:['El papel económico e histórico de la plata','La agricultura de la costa','Las guerras del siglo XX','El transporte aéreo'], correct:0, explanation:'El episodio se centra en la riqueza mineral y en la importancia histórica y económica de la plata.'}
+        ]
+      },
+      {
+        id:'ep4', number:'04', title:'La mita y el trabajo minero', image:'assets/illustrations/maquetacion-comic.png', description:'Se visibiliza el trabajo de los grupos indígenas y las condiciones asociadas a la explotación minera.',
+        pages:[
+          {image:'assets/illustrations/maquetacion-comic.png', narration:'Durante su recorrido, el protagonista conoce a trabajadores indígenas vinculados al sistema de mita, que fue una de las bases del trabajo minero colonial.', speech:'Ahora veo que detrás de la riqueza también existió mucho esfuerzo y sufrimiento.'},
+          {image:'assets/mina.jpg', narration:'El trabajo minero implicaba riesgos y duras condiciones. Mostrar esta dimensión permite evitar una visión superficial de la historia colonial.', speech:'No se puede hablar de la plata sin hablar de las personas que la extrajeron.'},
+          {image:'assets/illustrations/escena-colonial.png', narration:'El cómic busca representar la relación entre economía, trabajo y vida cotidiana, destacando la presencia de distintos grupos sociales en el proceso histórico.', speech:'La historia se entiende mejor cuando se mira a quienes participaron en ella.'}
+        ],
+        quiz:[
+          {q:'¿Qué sistema de trabajo aparece en este episodio?', options:['Encomienda textil','Mita minera','Trabajo industrial moderno','Turismo patrimonial'], correct:1, explanation:'La mita minera es uno de los acontecimientos históricos seleccionados para el proyecto.'},
+          {q:'¿Por qué es importante mostrar el trabajo de los grupos indígenas?', options:['Porque no participaron en la historia','Porque ayudan a comprender el costo humano de la minería','Porque solo realizaron comercio','Porque vivían fuera de Potosí'], correct:1, explanation:'Representarlos permite comprender mejor la dimensión social y humana de la actividad minera.'}
+        ]
+      },
+      {
+        id:'ep5', number:'05', title:'La Casa de Moneda y la vida colonial', image:'assets/illustrations/guia-estilo.png', description:'El episodio presenta la circulación de la riqueza, la producción monetaria y algunos aspectos de la vida social colonial.',
+        pages:[
+          {image:'assets/portada.jpg', narration:'La visita a la Casa de Moneda permite al protagonista entender cómo la riqueza mineral se relacionaba con la producción monetaria y la organización económica.', speech:'Entonces la plata también se transformaba aquí, en moneda y en poder económico.'},
+          {image:'assets/illustrations/guia-estilo.png', narration:'La escena también introduce la vida urbana colonial: comerciantes, autoridades, artesanos y espacios representativos de la Villa Imperial.', speech:'Todo este movimiento muestra que la ciudad era más que minas; era una sociedad completa.'},
+          {image:'assets/escena.jpg', narration:'Comprender la Casa de Moneda y la vida colonial ayuda a visualizar la complejidad de Potosí y sus múltiples actores históricos.', speech:'La historia de Potosí está hecha de muchas actividades y muchos rostros.'}
+        ],
+        quiz:[
+          {q:'¿Qué institución aparece en este episodio?', options:['Casa de la Libertad','Casa Nacional de Moneda','Banco Central moderno','Escuela republicana'], correct:1, explanation:'La Casa de Moneda forma parte de los acontecimientos y escenarios históricos seleccionados para el cómic.'},
+          {q:'¿Qué aporta mostrar la vida colonial?', options:['Ayuda a comprender la sociedad y sus grupos','No tiene relación con la historia','Solo decora las escenas','Sirve únicamente para mostrar ropa'], correct:0, explanation:'Representar la vida social colonial permite comprender la ciudad más allá de la minería.'}
+        ]
+      },
+      {
+        id:'ep6', number:'06', title:'El regreso y la valoración del patrimonio', image:'assets/illustrations/portada-ilustrada.png', description:'Después del recorrido, el protagonista vuelve al presente con una nueva mirada sobre la historia y el patrimonio de Potosí.',
+        pages:[
+          {image:'assets/illustrations/portada-ilustrada.png', narration:'Tras recorrer el pasado, el protagonista vuelve al presente con una comprensión más amplia del significado histórico y cultural de Potosí.', speech:'Ahora entiendo mejor por qué debemos conocer y valorar este patrimonio.'},
+          {image:'assets/viaje.jpg', narration:'La experiencia no termina con el regreso; al contrario, invita a seguir investigando y apreciando la historia local desde una mirada más consciente.', speech:'Conocer la historia también es reconocernos como parte de ella.'},
+          {image:'assets/illustrations/personaje-protagonista.png', narration:'El cómic concluye reforzando el propósito educativo del proyecto: promover el conocimiento y la valoración de la historia colonial entre estudiantes de secundaria.', speech:'El pasado de Potosí sigue vivo cuando lo estudiamos y lo compartimos.'}
+        ],
+        quiz:[
+          {q:'¿Qué idea principal deja el episodio final?', options:['Que el pasado ya no importa','Que conocer la historia ayuda a valorar el patrimonio','Que solo la ficción es importante','Que el viaje elimina los hechos históricos'], correct:1, explanation:'El cierre del cómic busca fortalecer la valoración de la historia y el patrimonio de Potosí.'},
+          {q:'¿Cuál es el propósito educativo general del proyecto?', options:['Promover el conocimiento y la identidad histórica','Enseñar únicamente dibujo técnico','Reemplazar la historia por fantasía','Mostrar solo paisajes'], correct:0, explanation:'El proyecto se orienta a fortalecer la identidad histórica mediante un cómic digital interactivo.'}
+        ]
+      }
+    ];
+
+    let currentView = 'inicio';
+    let currentEpisode = 0;
+    let currentPage = 0;
+    let quizEpisode = 0;
+    let quizIndex = 0;
+    let quizScore = 0;
+    let answeredCurrent = false;
+    const progressKey = 'potosi-progress-v2';
+    const progress = JSON.parse(localStorage.getItem(progressKey) || '{}');
+
+    function saveProgress(){ localStorage.setItem(progressKey, JSON.stringify(progress)); }
+    function setView(name){
+      currentView=name;
+      document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active', v.id===`view-${name}`));
+      document.querySelectorAll('.nav-btn[data-view]').forEach(b=>b.classList.toggle('active', b.dataset.view===name));
+      if(name==='actividades') showActivityChooser();
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    function renderEpisodes(){
+      const grid = document.getElementById('episodeGrid');
+      grid.innerHTML='';
+      episodes.forEach((ep, idx)=>{
+        const card = document.createElement('article');
+        card.className='card episode-card';
+        card.innerHTML = `
+          <div class="episode-thumb"><img src="${ep.image}" alt="${ep.title}"><div class="episode-badge">Episodio ${ep.number}</div></div>
+          <div class="episode-body">
+            <h3>${ep.title}</h3>
+            <p>${ep.description}</p>
+            <div class="episode-meta"><span>${ep.pages.length} páginas · ${ep.quiz.length} preguntas</span><button class="small-btn">Leer episodio</button></div>
+          </div>`;
+        card.querySelector('button').addEventListener('click', ()=>openEpisode(idx));
+        grid.appendChild(card);
+      });
+    }
+
+    function openEpisode(idx){ currentEpisode = idx; currentPage = 0; renderReader(); setView('lector'); }
+    function renderReader(){
+      const ep = episodes[currentEpisode];
+      const page = ep.pages[currentPage];
+      document.getElementById('readerEpisodeTag').textContent = `episodio ${ep.number}`;
+      document.getElementById('readerTitle').textContent = ep.title;
+      document.getElementById('readerImage').src = page.image;
+      document.getElementById('readerImage').alt = ep.title;
+      document.getElementById('readerNarration').textContent = page.narration;
+      document.getElementById('readerSpeech').textContent = page.speech;
+      document.getElementById('readerPageNum').textContent = String(currentPage+1).padStart(2,'0');
+      document.getElementById('readerCount').textContent = `Página ${currentPage+1} de ${ep.pages.length}`;
+      document.getElementById('readerBar').style.width = `${((currentPage+1)/ep.pages.length)*100}%`;
+      const dots = document.getElementById('readerDots'); dots.innerHTML='';
+      ep.pages.forEach((_,i)=>{ const d=document.createElement('span'); d.className='dot'+(i===currentPage?' active':''); dots.appendChild(d);});
+      document.getElementById('activityLaunch').classList.toggle('hidden', currentPage !== ep.pages.length-1);
+      progress[ep.id] = Math.max(progress[ep.id] || 0, currentPage+1); saveProgress();
+    }
+    function movePage(dir){ const ep=episodes[currentEpisode]; currentPage=Math.min(ep.pages.length-1, Math.max(0, currentPage+dir)); renderReader(); }
+
+    function showActivityChooser(){
+      const chooser=document.getElementById('activityChooser');
+      const panel=document.getElementById('quizPanel');
+      if(!chooser || !panel) return;
+      chooser.classList.remove('hidden'); panel.classList.add('hidden');
+      chooser.innerHTML='';
+      episodes.forEach((ep,idx)=>{
+        const card=document.createElement('article');
+        card.className='card episode-card activity-choice';
+        card.innerHTML=`<div class="episode-thumb"><img src="${ep.image}" alt="${ep.title}"><div class="episode-badge">Actividad ${ep.number}</div></div><div class="episode-body"><h3>${ep.title}</h3><p>Responde ${ep.quiz.length} preguntas sobre este episodio y revisa las explicaciones.</p><div class="episode-meta"><span>${ep.quiz.length} preguntas</span><button class="small-btn" type="button">Comenzar →</button></div></div>`;
+        card.querySelector('button').addEventListener('click',()=>startQuiz(idx));
+        chooser.appendChild(card);
+      });
+    }
+    function startQuiz(epIndex=currentEpisode){
+      quizEpisode=epIndex; quizIndex=0; quizScore=0; answeredCurrent=false;
+      document.getElementById('activityChooser').classList.add('hidden');
+      document.getElementById('quizPanel').classList.remove('hidden');
+      document.getElementById('quizSummary').classList.add('hidden');
+      document.getElementById('questionCard').classList.remove('hidden');
+      renderQuiz();
+      if(currentView!=='actividades') setView('actividades');
+    }
+    function renderQuiz(){
+      const ep = episodes[quizEpisode];
+      const item = ep.quiz[quizIndex];
+      document.getElementById('quizEpisodeTag').textContent = `actividad · episodio ${ep.number}`;
+      document.getElementById('quizTitle').textContent = ep.title;
+      document.getElementById('quizStatus').textContent = `Pregunta ${quizIndex+1} de ${ep.quiz.length}`;
+      document.getElementById('quizBar').style.width = `${(quizIndex/ep.quiz.length)*100}%`;
+      document.getElementById('questionText').textContent = item.q;
+      document.getElementById('nextQuestionBtn').disabled = true;
+      document.getElementById('feedback').className='feedback';
+      document.getElementById('feedback').innerHTML='';
+      const options = document.getElementById('options'); options.innerHTML='';
+      item.options.forEach((op,i)=>{
+        const btn = document.createElement('button');
+        btn.className='option'; btn.innerHTML=`<b>${String.fromCharCode(65+i)}</b><span>${op}</span>`;
+        btn.addEventListener('click',()=>answerOption(btn,i));
+        options.appendChild(btn);
+      });
+      answeredCurrent=false;
+    }
+    function answerOption(btn, choice){ if(answeredCurrent) return; answeredCurrent=true; const ep=episodes[quizEpisode]; const item=ep.quiz[quizIndex]; const all=[...document.querySelectorAll('.option')]; all.forEach((o,idx)=>{ if(idx===item.correct) o.classList.add('correct'); if(idx===choice && idx!==item.correct) o.classList.add('wrong'); o.disabled=true;}); if(choice===item.correct) quizScore++; const fb = document.getElementById('feedback'); fb.className='feedback show'; fb.innerHTML = `<strong>${choice===item.correct?'¡Respuesta correcta!':'Respuesta incorrecta.'}</strong><br>${item.explanation}`; document.getElementById('nextQuestionBtn').disabled=false; document.getElementById('quizBar').style.width = `${((quizIndex+1)/ep.quiz.length)*100}%`; }
+    function nextQuestion(){ const ep=episodes[quizEpisode]; if(quizIndex < ep.quiz.length-1){ quizIndex++; renderQuiz(); } else { showSummary(); } }
+    function showSummary(){ const ep=episodes[quizEpisode]; document.getElementById('questionCard').classList.add('hidden'); document.getElementById('quizSummary').classList.remove('hidden'); document.getElementById('summaryScore').textContent = `${quizScore} / ${ep.quiz.length}`; let msg='Buen trabajo. '; if(quizScore===ep.quiz.length) msg+='Respondiste correctamente todas las preguntas.'; else if(quizScore>=Math.ceil(ep.quiz.length/2)) msg+='Lograste una buena comprensión del episodio, aunque todavía puedes reforzar algunos aspectos.'; else msg+='Conviene releer el episodio y volver a intentarlo para afianzar los contenidos históricos.'; document.getElementById('summaryText').textContent = msg; }
+
+    document.querySelectorAll('[data-view]').forEach(btn=>btn.addEventListener('click',()=>setView(btn.dataset.view)));
+    document.getElementById('jumpReader').addEventListener('click',()=>{openEpisode(0)});
+    document.getElementById('prevPage').addEventListener('click',()=>movePage(-1));
+    document.getElementById('nextPage').addEventListener('click',()=>movePage(1));
+    document.getElementById('nextPageCta').addEventListener('click',()=>movePage(1));
+    document.getElementById('launchQuiz').addEventListener('click',()=>startQuiz(currentEpisode));
+    document.getElementById('openEpisodeQuiz').addEventListener('click',()=>startQuiz(currentEpisode));
+    document.getElementById('nextQuestionBtn').addEventListener('click',nextQuestion);
+    document.getElementById('retryQuiz').addEventListener('click',()=>startQuiz(quizEpisode));
+    document.getElementById('chooseAnotherActivity').addEventListener('click',showActivityChooser);
+    document.getElementById('backToActivities').addEventListener('click',showActivityChooser);
+    document.addEventListener('keydown', e=>{ if(currentView==='lector'){ if(e.key==='ArrowRight') movePage(1); if(e.key==='ArrowLeft') movePage(-1);} });
+
+    renderEpisodes();
+    showActivityChooser();
+    openEpisode(0);
+    setView('inicio');
+  </script>
+</body>
+</html>
